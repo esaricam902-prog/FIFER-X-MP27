@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FC 27 Community Realism Initiative — FIFER × Mellivora</title>
+<style>
+  :root{
+    --bg:#0b0f19;
+    --panel:rgba(255,255,255,0.04);
+    --panel-border:rgba(255,255,255,0.08);
+    --blue:#3b82f6;
+    --red:#ef4444;
+    --gold:#fbbf24;
+    --text:#e5e7eb;
+    --text-dim:#9ca3af;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  body{
+    background:
+      radial-gradient(circle at 15% 10%, rgba(59,130,246,0.18), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(239,68,68,0.16), transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(251,191,36,0.06), transparent 55%),
+      var(--bg);
+    background-attachment:fixed;
+  }
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:48px 20px 80px;
+  }
+
+  /* HEADER */
+  header{
+    text-align:center;
+    margin-bottom:44px;
+  }
+  .logo-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin-bottom:22px;
+  }
+  .badge-icon{
+    width:52px;height:52px;
+    border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;
+    letter-spacing:0.5px;
+  }
+  .badge-icon.blue{
+    background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+    box-shadow:0 8px 24px rgba(59,130,246,0.35);
+  }
+  .badge-icon.red{
+    background:linear-gradient(135deg,#ef4444,#b91c1c);
+    box-shadow:0 8px 24px rgba(239,68,68,0.35);
+  }
+  .plus-icon{
+    font-size:22px;
+    color:var(--text-dim);
+    font-weight:300;
+  }
+  h1.main-title{
+    font-size:clamp(28px,4.5vw,44px);
+    font-weight:800;
+    letter-spacing:-0.5px;
+    margin:0 0 12px;
+    background:linear-gradient(90deg,#93c5fd,#fca5a5);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .subtitle{
+    color:var(--text-dim);
+    font-size:16px;
+    max-width:620px;
+    margin:0 auto;
+    line-height:1.6;
+  }
+
+  /* PROGRESS CARD */
+  .progress-card{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-radius:28px;
+    padding:32px;
+    margin:36px 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .progress-card::before{
+    content:"";
+    position:absolute;
+    top:-50%;left:-50%;
+    width:200%;height:200%;
+    background:conic-gradient(from 0deg, transparent, rgba(59,130,246,0.05), transparent 30%);
+    animation:rotate 12s linear infinite;
+    pointer-events:none;
+  }
+  @keyframes rotate{ to{ transform:rotate(360deg); } }
+  .progress-stats{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+    gap:8px;
+    position:relative;
+    z-index:1;
+  }
+  .signature-count{
+    font-size:clamp(26px,4vw,36px);
+    font-weight:800;
+    color:#fff;
+  }
+  .signature-count span{
+    background:linear-gradient(90deg,var(--blue),var(--red));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .goal-text{
+    color:var(--text-dim);
+    font-size:14px;
+    font-weight:500;
+  }
+  .progress-track{
+    width:100%;
+    height:16px;
+    background:rgba(255,255,255,0.06);
+    border-radius:999px;
+    overflow:hidden;
+    position:relative;
+    z-index:1;
+    border:1px solid rgba(255,255,255,0.06);
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg,var(--blue),#8b5cf6,var(--red));
+    background-size:200% 100%;
+    animation:gradientShift 3s ease infinite;
+    transition:width 1.6s cubic-bezier(.22,1,.36,1);
+    box-shadow:0 0 18px rgba(139,92,246,0.6);
+  }
+  @keyframes gradientShift{
+    0%,100%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+  }
+  .progress-percent{
+    text-align:right;
+    margin-top:8px;
+    font-size:13px;
+    color:var(--text-dim);
+    position:relative;
+    z-index:1;
+  }
+
+  /* CTA BUTTON */
+  .cta-zone{
+    text-align:center;
+    margin:44px 0;
+  }
+  #signBtn{
+    position:relative;
+    background:linear-gradient(135deg,var(--blue),var(--red));
+    color:#fff;
+    border:none;
+    padding:20px 52px;
+    font-size:18px;
+    font-weight:800;
+    border-radius:999px;
+    cursor:pointer;
+    letter-spacing:0.3px;
+    box-shadow:0 0 0 rgba(59,130,246,0);
+    animation:glow 2.4s ease-in-out infinite;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+    font-family:inherit;
+  }
+  #signBtn:hover:not(:disabled){
+    transform:translateY(-3px) scale(1.03);
+  }
+  #signBtn:active:not(:disabled){
+    transform:translateY(-1px) scale(0.99);
+  }
+  #signBtn:disabled{
+    background:linear-gradient(135deg,#374151,#1f2937);
+    cursor:default;
+    animation:none;
+    box-shadow:none;
+    opacity:0.9;
+  }
+  @keyframes glow{
+    0%,100%{ box-shadow:0 0 20px rgba(59,130,246,0.5), 0 0 40px rgba(239,68,68,0.2);}
+    50%{ box-shadow:0 0 34px rgba(239,68,68,0.55), 0 0 60px rgba(59,130,246,0.35);}
+  }
+  .pop{
+    animation:popEffect 0.5s ease;
+  }
+  @keyframes popEffect{
+    0%{transform:scale(1);}
+    35%{transform:scale(1.18);}
+    100%{transform:scale(1);}
+  }
+  .thanks-note{
+    margin-top:14px;
+    font-size:13px;
+    color:var(--text-dim);
+    min-height:18px;
+  }
+
+  /* LANGUAGE TABS */
+  .tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin:56px 0 20px;
+  }
+  .tab-btn{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    color:var(--text-dim);
+    padding:10px 24px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.25s ease;
+    font-family:inherit;
+  }
+  .tab-btn.active{
+    color:#fff;
+    background:linear-gradient(135deg,rgba(59,130,246,0.25),rgba(239,68,68,0.25));
+    border-color:rgba(255,255,255,0.2);
+  }
+  .tab-btn:hover{
+    color:#fff;
+    transform:translateY(-2px);
+  }
+
+  /* CONTENT CARDS */
+  .content-panel{
+    display:none;
+    animation:fadeIn 0.5s ease;
+  }
+  .content-panel.active{
+    display:grid;
+  }
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .lang-card{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-radius:24px;
+    padding:36px;
+    transition:transform 0.35s ease, border-color 0.35s ease;
+  }
+  .lang-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(255,255,255,0.18);
+  }
+  .lang-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  .lang-badge.en{
+    background:rgba(59,130,246,0.15);
+    color:#93c5fd;
+    border:1px solid rgba(59,130,246,0.3);
+  }
+  .lang-badge.tr{
+    background:rgba(239,68,68,0.15);
+    color:#fca5a5;
+    border:1px solid rgba(239,68,68,0.3);
+  }
+  .lang-card h2{
+    font-size:24px;
+    margin:0 0 18px;
+    font-weight:800;
+    line-height:1.3;
+  }
+  .lang-card p{
+    color:var(--text-dim);
+    font-size:15px;
+    line-height:1.75;
+    margin:0 0 14px;
+  }
+  .lang-card p strong{
+    color:var(--text);
+  }
+  .highlight-box{
+    margin-top:20px;
+    padding:16px 18px;
+    border-radius:16px;
+    background:rgba(251,191,36,0.06);
+    border:1px solid rgba(251,191,36,0.2);
+    font-size:14px;
+    color:#fde68a;
+    line-height:1.6;
+  }
+
+  /* MOD FEATURE GRID */
+  .mods-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin:40px 0;
+  }
+  @media (max-width:720px){
+    .mods-grid{ grid-template-columns:1fr; }
+  }
+  .mod-card{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:24px;
+    padding:28px;
+    text-align:center;
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .mod-card:hover{
+    transform:translateY(-6px) scale(1.02);
+  }
+  .mod-card.fifer:hover{ box-shadow:0 12px 32px rgba(59,130,246,0.25); }
+  .mod-card.mellivora:hover{ box-shadow:0 12px 32px rgba(239,68,68,0.25); }
+  .mod-icon{
+    width:56px;height:56px;
+    margin:0 auto 16px;
+    border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mod-card.fifer .mod-icon{ background:linear-gradient(135deg,#3b82f6,#1d4ed8); }
+  .mod-card.mellivora .mod-icon{ background:linear-gradient(135deg,#ef4444,#b91c1c); }
+  .mod-card h3{
+    margin:0 0 8px;
+    font-size:17px;
+    font-weight:800;
+  }
+  .mod-card p{
+    color:var(--text-dim);
+    font-size:13.5px;
+    line-height:1.6;
+    margin:0;
+  }
+
+  /* FOOTER */
+  footer{
+    text-align:center;
+    margin-top:70px;
+    color:#4b5563;
+    font-size:12px;
+  }
+  .admin-link{
+    background:none;
+    border:none;
+    color:#374151;
+    font-size:11px;
+    cursor:pointer;
+    margin-top:24px;
+    font-family:inherit;
+    transition:color 0.3s ease;
+  }
+  .admin-link:hover{
+    color:#6b7280;
+  }
+  #adminPanel{
+    display:none;
+    max-width:320px;
+    margin:18px auto 0;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:18px;
+    padding:20px;
+    animation:fadeIn 0.4s ease;
+  }
+  #adminPanel input{
+    width:100%;
+    padding:10px 14px;
+    border-radius:10px;
+    border:1px solid var(--panel-border);
+    background:rgba(255,255,255,0.05);
+    color:#fff;
+    font-size:13px;
+    margin-bottom:10px;
+    font-family:inherit;
+  }
+  #adminPanel input:focus{
+    outline:none;
+    border-color:var(--blue);
+  }
+  #adminPanel button{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    background:linear-gradient(135deg,var(--blue),var(--red));
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    font-size:13px;
+    font-family:inherit;
+    transition:opacity 0.2s ease;
+  }
+  #adminPanel button:hover{ opacity:0.85; }
+  .admin-msg{
+    font-size:12px;
+    margin-top:10px;
+    min-height:14px;
+  }
+  .admin-msg.error{ color:#f87171; }
+  .admin-msg.success{ color:#4ade80; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="logo-row">
+      <div class="badge-icon blue">FR</div>
+      <span class="plus-icon">+</span>
+      <div class="badge-icon red">MP</div>
+    </div>
+    <h1 class="main-title">FC 27 Community Realism Initiative</h1>
+    <p class="subtitle">Uniting FIFER Realism Mod & Mellivora Patch — one seamless, officially linked realism experience across Europe and Turkey.</p>
+  </header>
+
+  <div class="progress-card">
+    <div class="progress-stats">
+      <div class="signature-count"><span id="countDisplay">0</span> signatures</div>
+      <div class="goal-text">Goal: 5,000</div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-percent" id="progressPercent">0%</div>
+  </div>
+
+  <div class="cta-zone">
+    <button id="signBtn">Sign the Petition / Kampanyayı İmzala</button>
+    <div class="thanks-note" id="thanksNote"></div>
+  </div>
+
+  <div class="mods-grid">
+    <div class="mod-card fifer">
+      <div class="mod-icon">⚽</div>
+      <h3>FIFER Realism Mod</h3>
+      <p>Deep European league realism — tactics, transfers, physics and match engine overhauls.</p>
+    </div>
+    <div class="mod-card mellivora">
+      <div class="mod-icon">🦡</div>
+      <h3>Mellivora Patch</h3>
+      <p>Ultra-detailed Turkish Süper Lig & Beşiktaş accuracy — kits, rosters, stadiums, atmosphere.</p>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-lang="en">🇬🇧 English</button>
+    <button class="tab-btn" data-lang="tr">🇹🇷 Türkçe</button>
+  </div>
+
+  <div class="content-panel active" id="panel-en">
+    <div class="lang-card">
+      <span class="lang-badge en">English</span>
+      <h2>FC 27 Community Realism Initiative</h2>
+      <p>FIFER Realism Mod has redefined how <strong>European football</strong> feels in FC 27 — realistic tactics, transfer logic and match engine depth that the community has come to rely on. Meanwhile, the <strong>Mellivora Patch</strong> delivers an unmatched, hyper-detailed simulation of the <strong>Turkish Süper Lig and Beşiktaş</strong>, down to kits, squads, and matchday atmosphere.</p>
+      <p>Right now, these two exceptional projects run separately. This petition asks both development teams to explore an <strong>official compatibility link or partnership</strong>, so players can enjoy the full depth of European realism <strong>and</strong> Turkish league accuracy in a single, unified modding experience.</p>
+      <div class="highlight-box">
+        💛 The community is ready to financially support a premium compatible add-on or bundled version, if that's what it takes to reward the work involved in aligning both mods. We believe this collaboration deserves proper recognition and resources.
+      </div>
+    </div>
+  </div>
+
+  <div class="content-panel" id="panel-tr">
+    <div class="lang-card">
+      <span class="lang-badge tr">Türkçe</span>
+      <h2>FC 27 İçin Uyumluluk ve Ortak Çalışma Talebi</h2>
+      <p>FIFER Realism Mod, FC 27'de <strong>Avrupa futbolunun</strong> gerçekçiliğini tamamen değiştirdi — taktikler, transfer mantığı ve maç motoru derinliği topluluğun vazgeçilmezi haline geldi. Diğer yandan <strong>Mellivora Patch</strong>, <strong>Türkiye Süper Ligi ve Beşiktaş</strong> için eşi benzeri görülmemiş, son derece detaylı bir simülasyon sunuyor; formalardan kadrolara, stadyum atmosferine kadar her şey.</p>
+      <p>Şu anda bu iki mükemmel proje ayrı ayrı çalışıyor. Bu kampanya, her iki geliştirme ekibinden de <strong>resmi bir uyumluluk bağlantısı veya ortaklık</strong> araştırmalarını talep ediyor; böylece oyuncular Avrupa gerçekçiliğinin tam derinliğini <strong>ve</strong> Türk ligi hassasiyetini tek, birleşik bir modding deneyiminde yaşayabilsin.</p>
+      <div class="highlight-box">
+        💛 Topluluk, iki modun uyumlu hale getirilmesi için gereken emeği ödüllendirmek adına gerekirse premium bir eklenti veya paket sürüm için finansal destek vermeye hazır. Bu iş birliğinin hak ettiği tanınmayı ve kaynağı bulmasını istiyoruz.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Community-driven initiative · Not affiliated with EA Sports · FIFER & Mellivora trademarks belong to their respective creators.</p>
+    <button class="admin-link" id="adminToggle">[admin]</button>
+    <div id="adminPanel">
+      <input type="password" id="adminPass" placeholder="Password">
+      <button id="adminReset">Reset Petition Data</button>
+      <div class="admin-msg" id="adminMsg"></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const BASE_COUNT = 0;
+  const GOAL = 5000;
+  const STORAGE_KEY = 'fc27_petition_signed';
+  const COUNT_KEY = 'fc27_petition_count';
+
+  const countDisplay = document.getElementById('countDisplay');
+  const progressFill = document.getElementById('progressFill');
+  const progressPercent = document.getElementById('progressPercent');
+  const signBtn = document.getElementById('signBtn');
+  const thanksNote = document.getElementById('thanksNote');
+
+  function getCurrentCount(){
+    const stored = parseInt(localStorage.getItem(COUNT_KEY), 10);
+    return Number.isFinite(stored) ? stored : BASE_COUNT;
+  }
+
+  function setCount(val){
+    localStorage.setItem(COUNT_KEY, val);
+  }
+
+  // updateProgressUI: the "count" shown in text is always accurate immediately.
+  // Only the progress-bar WIDTH animates (from its current width to the new %),
+  // so the visible number never flashes to 0 on load.
+  function updateProgressUI(count, animateBar){
+    const pct = Math.min(100, (count / GOAL) * 100);
+    countDisplay.textContent = count.toLocaleString('en-US');
+    if(animateBar){
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+          progressFill.style.width = pct + '%';
+        });
+      });
+    } else {
+      progressFill.style.width = pct + '%';
+    }
+    progressPercent.textContent = pct.toFixed(1) + '%';
+  }
+
+  function refreshButtonState(){
+    const signed = localStorage.getItem(STORAGE_KEY) === 'true';
+    if(signed){
+      signBtn.disabled = true;
+      signBtn.textContent = 'Thank you for signing! / İmzalandı!';
+      thanksNote.textContent = '✓ Your voice has been counted. Merci ! Teşekkürler!';
+    } else {
+      signBtn.disabled = false;
+      signBtn.textContent = 'Sign the Petition / Kampanyayı İmzala';
+      thanksNote.textContent = '';
+    }
+  }
+
+  // Init: show the real, correct count instantly (no "0" flash),
+  // then animate only the bar fill sliding in from empty.
+  let currentCount = getCurrentCount();
+  countDisplay.textContent = currentCount.toLocaleString('en-US');
+  progressFill.style.width = '0%';
+  progressPercent.textContent = Math.min(100, (currentCount / GOAL) * 100).toFixed(1) + '%';
+  setTimeout(()=>{ updateProgressUI(currentCount, true); }, 200);
+  refreshButtonState();
+
+  signBtn.addEventListener('click', function(){
+    if(signBtn.disabled) return;
+
+    // Disable immediately (synchronously) to prevent double-clicks / rapid
+    // clicks from incrementing the counter more than once before the
+    // localStorage write and state refresh complete.
+    signBtn.disabled = true;
+
+    currentCount = getCurrentCount() + 1;
+    setCount(currentCount);
+    localStorage.setItem(STORAGE_KEY, 'true');
+
+    updateProgressUI(currentCount, true);
+
+    signBtn.classList.add('pop');
+    setTimeout(()=> signBtn.classList.remove('pop'), 500);
+
+    refreshButtonState();
+  });
+
+  // Tabs
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const panels = { en: document.getElementById('panel-en'), tr: document.getElementById('panel-tr') };
+  tabBtns.forEach(btn=>{
+    btn.addEventListener('click', function(){
+      tabBtns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      Object.values(panels).forEach(p=>p.classList.remove('active'));
+      panels[btn.dataset.lang].classList.add('active');
+    });
+  });
+
+  // Admin panel
+  const adminToggle = document.getElementById('adminToggle');
+  const adminPanel = document.getElementById('adminPanel');
+  const adminPass = document.getElementById('adminPass');
+  const adminReset = document.getElementById('adminReset');
+  const adminMsg = document.getElementById('adminMsg');
+
+  adminToggle.addEventListener('click', function(){
+    adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
+    adminMsg.textContent = '';
+    adminPass.value = '';
+    if(adminPanel.style.display === 'block'){ adminPass.focus(); }
+  });
+
+  // No <form> element is used (by design, to avoid a page reload), so the
+  // Enter key must be wired up manually for the password field to submit.
+  adminPass.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ adminReset.click(); }
+  });
+
+  adminReset.addEventListener('click', function(){
+    if(adminPass.value === 'Fc27#Mv&Fifer_2027!Xk9$Besiktas'){
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(COUNT_KEY);
+      currentCount = BASE_COUNT;
+      updateProgressUI(currentCount, true);
+      refreshButtonState();
+      adminMsg.textContent = '✓ Petition data reset successfully.';
+      adminMsg.className = 'admin-msg success';
+      adminPass.value = '';
+    } else {
+      adminMsg.textContent = '✗ Incorrect password.';
+      adminMsg.className = 'admin-msg error';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
