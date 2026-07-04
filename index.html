@@ -806,16 +806,16 @@
 <div class="sticky-bar" id="stickyBar">
   <div class="sticky-bar-left">
     <span class="sticky-dot"></span>
-    <span>FC 27 Realism Initiative</span>
+    <span id="stickyTitle">FC 27 Realism Initiative</span>
   </div>
   <div class="sticky-count" id="stickyCount">0 / 5,000</div>
-  <a href="#signZone" class="sticky-cta">Sign ↑</a>
+  <a href="#signZone" class="sticky-cta" id="stickyCtaBtn">Sign ↑</a>
 </div>
 
 <div class="wrap">
 
   <header class="hero">
-    <span class="eyebrow">Community Petition · FC 27</span>
+    <span class="eyebrow" id="eyebrowText">Community Petition · FC 27</span>
     <div class="shield-row">
       <div class="shield blue" aria-hidden="true">FR</div>
       <div class="link-icon" aria-hidden="true">
@@ -826,17 +826,17 @@
       </div>
       <div class="shield red" aria-hidden="true">MP</div>
     </div>
-    <h1 class="main-title">FC 27 Community<br>Realism Initiative</h1>
-    <p class="subtitle">Uniting FIFER Realism Mod &amp; Mellivora Patch — one seamless, officially linked realism experience across Europe and Turkey.</p>
+    <h1 class="main-title" id="heroTitle">FC 27 Community<br>Realism Initiative</h1>
+    <p class="subtitle" id="subtitleText">Uniting FIFER Realism Mod &amp; Mellivora Patch — one seamless, officially linked realism experience across Europe and Turkey.</p>
   </header>
 
   <div class="progress-card reveal">
     <div class="progress-stats">
       <div>
-        <div class="signature-count-label">Signatures</div>
+        <div class="signature-count-label" id="sigLabel">Signatures</div>
         <div class="signature-count"><span id="countDisplay">0</span></div>
       </div>
-      <div class="goal-text">Objectif<br><b>5,000</b></div>
+      <div class="goal-text" id="goalText">Goal<br><b>5,000</b></div>
     </div>
     <div class="progress-track">
       <div class="progress-fill" id="progressFill"></div>
@@ -847,41 +847,41 @@
   <div class="mods-grid">
     <div class="mod-card fifer reveal">
       <div class="mod-badge" aria-hidden="true">FR</div>
-      <h3>FIFER Realism Mod</h3>
-      <p>Deep European league realism — tactics, transfers, physics and match engine overhauls.</p>
+      <h3 id="modFiferTitle">FIFER Realism Mod</h3>
+      <p id="modFiferDesc">Deep European league realism — tactics, transfers, physics and match engine overhauls.</p>
     </div>
     <div class="mod-card mellivora reveal">
       <div class="mod-badge" aria-hidden="true">MP</div>
-      <h3>Mellivora Patch</h3>
-      <p>Ultra-detailed Turkish Süper Lig &amp; Beşiktaş accuracy — kits, rosters, stadiums, atmosphere.</p>
+      <h3 id="modMellivoraTitle">Mellivora Patch</h3>
+      <p id="modMellivoraDesc">Ultra-detailed Turkish Süper Lig &amp; Beşiktaş accuracy — kits, rosters, stadiums, atmosphere.</p>
     </div>
   </div>
 
   <div class="cta-zone reveal" id="signZone">
-    <div class="cta-heading">Rejoignez l'initiative</div>
+    <div class="cta-heading" id="ctaHeading">Join the initiative</div>
 
     <div class="petition-form" id="petitionForm">
       <div class="form-row">
         <div class="field-group">
           <input type="text" id="firstNameInput" placeholder=" " autocomplete="given-name">
-          <label for="firstNameInput">Prénom / First name</label>
+          <label for="firstNameInput" id="firstNameLabel">First name</label>
         </div>
         <div class="field-group">
           <input type="text" id="lastNameInput" placeholder=" " autocomplete="family-name">
-          <label for="lastNameInput">Nom / Last name</label>
+          <label for="lastNameInput" id="lastNameLabel">Last name</label>
         </div>
       </div>
       <div class="field-group full">
         <input type="email" id="emailInput" placeholder=" " autocomplete="email">
-        <label for="emailInput">Email</label>
+        <label for="emailInput" id="emailLabel">Email</label>
       </div>
       <div class="form-error" id="formError" role="alert" aria-live="polite"></div>
     </div>
 
-    <button id="signBtn">Sign the Petition / Kampanyayı İmzala</button>
+    <button id="signBtn">Sign the Petition</button>
     <div class="thanks-note" id="thanksNote" role="status" aria-live="polite"></div>
 
-    <button id="cancelBtn" class="cancel-btn">Annuler ma signature / Sign cancel</button>
+    <button id="cancelBtn" class="cancel-btn">Cancel my signature</button>
     <div class="countdown-text" id="countdownText" aria-live="polite"></div>
   </div>
 
@@ -917,14 +917,14 @@
   </div>
 
   <footer>
-    <p>Community-driven initiative · Not affiliated with EA Sports · FIFER &amp; Mellivora trademarks belong to their respective creators.</p>
+    <p id="footerNote">Community-driven initiative · Not affiliated with EA Sports · FIFER &amp; Mellivora trademarks belong to their respective creators.</p>
     <button class="admin-link" id="adminToggle">[admin]</button>
     <div id="adminPanel">
       <input type="password" id="adminPass" placeholder="Password">
       <button id="adminReset">Reset Petition Data</button>
       <div class="admin-msg" id="adminMsg"></div>
       <div class="admin-signatures" id="adminSignatures"></div>
-      <div class="admin-note">⚠ Cette page n'a pas de backend : cette liste ne montre que les signatures effectuées sur ce navigateur/appareil, pas celles des autres visiteurs.</div>
+      <div class="admin-note" id="adminNoteText">⚠ This page has no backend: this list only shows signatures made on this browser/device, not those of other visitors.</div>
     </div>
   </footer>
 
@@ -938,7 +938,78 @@
   const COUNT_KEY = 'fc27_petition_count';
   const SIGNATURE_KEY = 'fc27_petition_my_signature';
   const LOG_KEY = 'fc27_petition_signatures_log';
+  const LANG_KEY = 'fc27_petition_lang';
   const CANCEL_WINDOW_MS = 5 * 60 * 1000;
+
+  const TRANSLATIONS = {
+    en: {
+      eyebrow: 'Community Petition · FC 27',
+      heroTitle: 'FC 27 Community<br>Realism Initiative',
+      subtitle: 'Uniting FIFER Realism Mod &amp; Mellivora Patch — one seamless, officially linked realism experience across Europe and Turkey.',
+      sigLabel: 'Signatures',
+      goalLabel: 'Goal',
+      modFiferTitle: 'FIFER Realism Mod',
+      modFiferDesc: 'Deep European league realism — tactics, transfers, physics and match engine overhauls.',
+      modMellivoraTitle: 'Mellivora Patch',
+      modMellivoraDesc: 'Ultra-detailed Turkish Süper Lig &amp; Beşiktaş accuracy — kits, rosters, stadiums, atmosphere.',
+      ctaHeading: 'Join the initiative',
+      firstNameLabel: 'First name',
+      lastNameLabel: 'Last name',
+      emailLabel: 'Email',
+      signBtnIdle: 'Sign the Petition',
+      signBtnDone: 'Thank you for signing!',
+      thanksNote: '✓ Your voice has been counted.',
+      cancelBtn: 'Cancel my signature',
+      countdownActive: function(m, s){ return 'You can still cancel for ' + m + ':' + s; },
+      countdownExpired: 'Cancellation window closed — your signature is final.',
+      errorRequired: 'Please fill in first name, last name and email to sign.',
+      errorEmail: 'Invalid email address.',
+      footerNote: 'Community-driven initiative · Not affiliated with EA Sports · FIFER &amp; Mellivora trademarks belong to their respective creators.',
+      stickyTitle: 'FC 27 Realism Initiative',
+      stickyCta: 'Sign ↑',
+      adminSuccess: '✓ Petition data reset successfully.',
+      adminError: '✗ Incorrect password.',
+      adminEmpty: 'No signatures recorded on this browser.',
+      adminNote: '⚠ This page has no backend: this list only shows signatures made on this browser/device, not those of other visitors.',
+      adminActive: 'Active',
+      adminCancelled: 'Cancelled'
+    },
+    tr: {
+      eyebrow: 'Topluluk Dilekçesi · FC 27',
+      heroTitle: 'FC 27 Topluluk<br>Gerçekçilik Girişimi',
+      subtitle: "FIFER Realism Mod ile Mellivora Patch'i birleştiriyoruz — Avrupa ve Türkiye'de tek, resmi olarak bağlantılı bir gerçekçilik deneyimi.",
+      sigLabel: 'İmza',
+      goalLabel: 'Hedef',
+      modFiferTitle: 'FIFER Realism Mod',
+      modFiferDesc: 'Derinlemesine Avrupa ligi gerçekçiliği — taktikler, transferler, fizik ve maç motoru iyileştirmeleri.',
+      modMellivoraTitle: 'Mellivora Patch',
+      modMellivoraDesc: 'Son derece detaylı Türkiye Süper Ligi ve Beşiktaş hassasiyeti — formalar, kadrolar, stadyumlar, atmosfer.',
+      ctaHeading: 'Girişime katılın',
+      firstNameLabel: 'Ad',
+      lastNameLabel: 'Soyad',
+      emailLabel: 'E-posta',
+      signBtnIdle: 'Kampanyayı İmzala',
+      signBtnDone: 'İmzaladığınız için teşekkürler!',
+      thanksNote: '✓ Sesiniz sayıldı.',
+      cancelBtn: 'İmzamı iptal et',
+      countdownActive: function(m, s){ return 'Hâlâ ' + m + ':' + s + ' süreniz var, iptal edebilirsiniz'; },
+      countdownExpired: 'İptal süresi doldu — imzanız kesinleşti.',
+      errorRequired: 'İmzalamak için lütfen ad, soyad ve e-posta bilgilerinizi girin.',
+      errorEmail: 'Geçersiz e-posta adresi.',
+      footerNote: 'Topluluk odaklı bir girişimdir · EA Sports ile bağlantılı değildir · FIFER ve Mellivora ticari markaları kendi sahiplerine aittir.',
+      stickyTitle: 'FC 27 Gerçekçilik Girişimi',
+      stickyCta: 'İmzala ↑',
+      adminSuccess: '✓ Dilekçe verileri başarıyla sıfırlandı.',
+      adminError: '✗ Yanlış şifre.',
+      adminEmpty: 'Bu tarayıcıda kayıtlı imza yok.',
+      adminNote: '⚠ Bu sayfanın bir sunucu tarafı (backend) yoktur: bu liste yalnızca bu tarayıcıda/cihazda yapılan imzaları gösterir, diğer ziyaretçilerinkini değil.',
+      adminActive: 'Aktif',
+      adminCancelled: 'İptal edildi'
+    }
+  };
+
+  let currentLang = (localStorage.getItem(LANG_KEY) === 'tr') ? 'tr' : 'en';
+  let activeSignedAt = null;
 
   const countDisplay = document.getElementById('countDisplay');
   const progressFill = document.getElementById('progressFill');
@@ -953,6 +1024,25 @@
   const countdownText = document.getElementById('countdownText');
   const stickyBar = document.getElementById('stickyBar');
   const stickyCount = document.getElementById('stickyCount');
+
+  // Elements translated as a whole block when the language switches
+  const eyebrowText = document.getElementById('eyebrowText');
+  const heroTitle = document.getElementById('heroTitle');
+  const subtitleText = document.getElementById('subtitleText');
+  const sigLabel = document.getElementById('sigLabel');
+  const goalText = document.getElementById('goalText');
+  const modFiferTitle = document.getElementById('modFiferTitle');
+  const modFiferDesc = document.getElementById('modFiferDesc');
+  const modMellivoraTitle = document.getElementById('modMellivoraTitle');
+  const modMellivoraDesc = document.getElementById('modMellivoraDesc');
+  const ctaHeading = document.getElementById('ctaHeading');
+  const firstNameLabel = document.getElementById('firstNameLabel');
+  const lastNameLabel = document.getElementById('lastNameLabel');
+  const emailLabel = document.getElementById('emailLabel');
+  const footerNote = document.getElementById('footerNote');
+  const stickyTitle = document.getElementById('stickyTitle');
+  const stickyCtaBtn = document.getElementById('stickyCtaBtn');
+  const adminNoteText = document.getElementById('adminNoteText');
 
   let countdownInterval = null;
 
@@ -988,9 +1078,10 @@
 
   function updateProgressUI(count, animateBar){
     const pct = Math.min(100, (count / GOAL) * 100);
-    const countText = count.toLocaleString('en-US');
+    const localeCode = currentLang === 'tr' ? 'tr-TR' : 'en-US';
+    const countText = count.toLocaleString(localeCode);
     countDisplay.textContent = countText;
-    stickyCount.textContent = countText + ' / ' + GOAL.toLocaleString('en-US');
+    stickyCount.textContent = countText + ' / ' + GOAL.toLocaleString(localeCode);
     if(animateBar){
       requestAnimationFrame(()=>{
         requestAnimationFrame(()=>{
@@ -1011,14 +1102,15 @@
 
   function refreshButtonState(){
     const signed = localStorage.getItem(STORAGE_KEY) === 'true';
+    const t = TRANSLATIONS[currentLang];
     if(signed){
       signBtn.disabled = true;
-      signBtn.textContent = 'Thank you for signing! / İmzalandı!';
-      thanksNote.textContent = '✓ Your voice has been counted. Merci ! Teşekkürler!';
+      signBtn.textContent = t.signBtnDone;
+      thanksNote.textContent = t.thanksNote;
       setFormDisabled(true);
     } else {
       signBtn.disabled = false;
-      signBtn.textContent = 'Sign the Petition / Kampanyayı İmzala';
+      signBtn.textContent = t.signBtnIdle;
       thanksNote.textContent = '';
       setFormDisabled(false);
     }
@@ -1028,26 +1120,29 @@
     if(countdownInterval){ clearInterval(countdownInterval); countdownInterval = null; }
     cancelBtn.style.display = 'none';
     countdownText.textContent = '';
+    activeSignedAt = null;
   }
 
   function tickCountdown(signedAt){
+    const t = TRANSLATIONS[currentLang];
     const remaining = CANCEL_WINDOW_MS - (Date.now() - signedAt);
     if(remaining <= 0){
       stopCountdown();
-      countdownText.textContent = "Délai d'annulation écoulé — votre signature est définitive.";
+      countdownText.textContent = t.countdownExpired;
       return;
     }
     const totalSec = Math.ceil(remaining / 1000);
     const min = Math.floor(totalSec / 60);
     const sec = String(totalSec % 60).padStart(2, '0');
-    countdownText.textContent = 'Vous pouvez annuler pendant encore ' + min + ':' + sec;
+    countdownText.textContent = t.countdownActive(min, sec);
   }
 
   function startCountdown(signedAt){
     stopCountdown();
+    activeSignedAt = signedAt;
     const remaining = CANCEL_WINDOW_MS - (Date.now() - signedAt);
     if(remaining <= 0){
-      countdownText.textContent = "Délai d'annulation écoulé — votre signature est définitive.";
+      countdownText.textContent = TRANSLATIONS[currentLang].countdownExpired;
       return;
     }
     cancelBtn.style.display = 'inline-block';
@@ -1079,10 +1174,52 @@
     });
   }
 
+  function setLanguage(lang){
+    currentLang = (lang === 'tr') ? 'tr' : 'en';
+    localStorage.setItem(LANG_KEY, currentLang);
+    const t = TRANSLATIONS[currentLang];
+    document.documentElement.lang = currentLang;
+
+    eyebrowText.textContent = t.eyebrow;
+    heroTitle.innerHTML = t.heroTitle;
+    subtitleText.innerHTML = t.subtitle;
+    sigLabel.textContent = t.sigLabel;
+    goalText.innerHTML = t.goalLabel + '<br><b>' + GOAL.toLocaleString(currentLang === 'tr' ? 'tr-TR' : 'en-US') + '</b>';
+    modFiferTitle.textContent = t.modFiferTitle;
+    modFiferDesc.innerHTML = t.modFiferDesc;
+    modMellivoraTitle.textContent = t.modMellivoraTitle;
+    modMellivoraDesc.innerHTML = t.modMellivoraDesc;
+    ctaHeading.textContent = t.ctaHeading;
+    firstNameLabel.textContent = t.firstNameLabel;
+    lastNameLabel.textContent = t.lastNameLabel;
+    emailLabel.textContent = t.emailLabel;
+    cancelBtn.textContent = t.cancelBtn;
+    footerNote.innerHTML = t.footerNote;
+    stickyTitle.textContent = t.stickyTitle;
+    stickyCtaBtn.textContent = t.stickyCta;
+    adminNoteText.textContent = t.adminNote;
+
+    // Tabs + content panels follow the same language
+    tabBtns.forEach(b=>{
+      const isActive = b.dataset.lang === currentLang;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+    Object.keys(panels).forEach(key=> panels[key].classList.toggle('active', key === currentLang));
+
+    // Refresh anything that depends on language: button label, error text,
+    // and the live countdown (so it doesn't wait up to 1s to switch language)
+    refreshButtonState();
+    formError.textContent = '';
+    if(activeSignedAt){ tickCountdown(activeSignedAt); }
+    if(adminPanel.style.display === 'block'){ renderAdminSignatures(); }
+  }
+
   // ---- Init ----
   let currentCount = getCurrentCount();
-  countDisplay.textContent = currentCount.toLocaleString('en-US');
-  stickyCount.textContent = currentCount.toLocaleString('en-US') + ' / ' + GOAL.toLocaleString('en-US');
+  { const localeCode = currentLang === 'tr' ? 'tr-TR' : 'en-US';
+    countDisplay.textContent = currentCount.toLocaleString(localeCode);
+    stickyCount.textContent = currentCount.toLocaleString(localeCode) + ' / ' + GOAL.toLocaleString(localeCode); }
   progressFill.style.width = '0%';
   progressPercent.textContent = Math.min(100, (currentCount / GOAL) * 100).toFixed(1) + '%';
   setTimeout(()=>{ updateProgressUI(currentCount, true); }, 200);
@@ -1097,12 +1234,12 @@
     const email = emailInput.value.trim();
 
     if(!firstName || !lastName || !email){
-      formError.textContent = 'Merci de renseigner prénom, nom et email pour signer. / Please fill in first name, last name and email to sign.';
+      formError.textContent = TRANSLATIONS[currentLang].errorRequired;
       shakeInvalidFields();
       return;
     }
     if(!isValidEmail(email)){
-      formError.textContent = 'Adresse email invalide. / Invalid email address.';
+      formError.textContent = TRANSLATIONS[currentLang].errorEmail;
       emailInput.classList.remove('shake');
       void emailInput.offsetWidth;
       emailInput.classList.add('shake');
@@ -1165,11 +1302,7 @@
   const panels = { en: document.getElementById('panel-en'), tr: document.getElementById('panel-tr') };
   tabBtns.forEach(btn=>{
     btn.addEventListener('click', function(){
-      tabBtns.forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-      btn.classList.add('active');
-      btn.setAttribute('aria-pressed','true');
-      Object.values(panels).forEach(p=>p.classList.remove('active'));
-      panels[btn.dataset.lang].classList.add('active');
+      setLanguage(btn.dataset.lang);
     });
   });
 
@@ -1186,17 +1319,19 @@
   }
 
   function renderAdminSignatures(){
+    const t = TRANSLATIONS[currentLang];
     const log = getLog();
     if(log.length === 0){
-      adminSignatures.innerHTML = '<div class="admin-empty">Aucune signature enregistrée sur ce navigateur.</div>';
+      adminSignatures.innerHTML = '<div class="admin-empty">' + escapeHtml(t.adminEmpty) + '</div>';
       return;
     }
+    const localeCode = currentLang === 'tr' ? 'tr-TR' : 'en-US';
     const rows = log.slice().reverse().map(entry=>{
       const date = new Date(entry.timestamp);
-      const dateStr = date.toLocaleString('fr-FR');
+      const dateStr = date.toLocaleString(localeCode);
       const statusHtml = entry.cancelled
-        ? '<span class="sig-status cancelled-tag">Annulée</span>'
-        : '<span class="sig-status active">Active</span>';
+        ? '<span class="sig-status cancelled-tag">' + escapeHtml(t.adminCancelled) + '</span>'
+        : '<span class="sig-status active">' + escapeHtml(t.adminActive) + '</span>';
       return '<div class="admin-sig-row' + (entry.cancelled ? ' cancelled' : '') + '">' +
         '<div class="sig-avatar">' + escapeHtml(initials(entry.firstName, entry.lastName)) + '</div>' +
         '<div class="sig-body">' +
@@ -1239,14 +1374,18 @@
       emailInput.value = '';
       formError.textContent = '';
       renderAdminSignatures();
-      adminMsg.textContent = '✓ Petition data reset successfully.';
+      adminMsg.textContent = TRANSLATIONS[currentLang].adminSuccess;
       adminMsg.className = 'admin-msg success';
       adminPass.value = '';
     } else {
-      adminMsg.textContent = '✗ Incorrect password.';
+      adminMsg.textContent = TRANSLATIONS[currentLang].adminError;
       adminMsg.className = 'admin-msg error';
     }
   });
+
+  // ---- Apply the persisted (or default) language now that every element
+  // and helper this depends on (tabs, panels, admin) has been defined ----
+  setLanguage(currentLang);
 
   // ---- Sticky bar on scroll ----
   const heroEl = document.querySelector('header.hero');
