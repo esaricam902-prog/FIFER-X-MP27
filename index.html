@@ -1058,7 +1058,7 @@
 
   function getCurrentCount(){
     const stored = parseInt(localStorage.getItem(COUNT_KEY), 10);
-    return Number.isFinite(stored) ? stored : BASE_COUNT;
+    return Number.isFinite(stored) ? Math.max(BASE_COUNT, stored) : BASE_COUNT;
   }
 
   function setCount(val){
@@ -1226,6 +1226,14 @@
   refreshButtonState();
   loadMySignatureIfAny();
 
+  // Enter key submits the sign form from any of its 3 fields (previously
+  // only the admin password field supported this — inconsistent UX).
+  [firstNameInput, lastNameInput, emailInput].forEach(function(input){
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ e.preventDefault(); signBtn.click(); }
+    });
+  });
+
   signBtn.addEventListener('click', function(){
     if(signBtn.disabled) return;
 
@@ -1315,6 +1323,8 @@
   const adminSignatures = document.getElementById('adminSignatures');
 
   function initials(first, last){
+    first = first || '';
+    last = last || '';
     return ((first[0]||'') + (last[0]||'')).toUpperCase();
   }
 
@@ -1335,8 +1345,8 @@
       return '<div class="admin-sig-row' + (entry.cancelled ? ' cancelled' : '') + '">' +
         '<div class="sig-avatar">' + escapeHtml(initials(entry.firstName, entry.lastName)) + '</div>' +
         '<div class="sig-body">' +
-          '<span class="sig-name">' + escapeHtml(entry.firstName) + ' ' + escapeHtml(entry.lastName) + '</span>' + statusHtml + '<br>' +
-          '<span class="sig-email">' + escapeHtml(entry.email) + '</span><br>' +
+          '<span class="sig-name">' + escapeHtml(entry.firstName || '') + ' ' + escapeHtml(entry.lastName || '') + '</span>' + statusHtml + '<br>' +
+          '<span class="sig-email">' + escapeHtml(entry.email || '') + '</span><br>' +
           '<span class="sig-meta">' + dateStr + '</span>' +
         '</div>' +
       '</div>';
@@ -1386,6 +1396,33 @@
   // ---- Apply the persisted (or default) language now that every element
   // and helper this depends on (tabs, panels, admin) has been defined ----
   setLanguage(currentLang);
+
+  // ---- Cross-tab sync ----
+  // localStorage is shared across every tab of the same browser on this
+  // origin. Without this, signing/cancelling in one tab left every other
+  // open tab showing stale state (wrong count, form still enabled, etc.)
+  // until manually refreshed.
+  window.addEventListener('storage', function(e){
+    if(e.key === COUNT_KEY){
+      currentCount = getCurrentCount();
+      updateProgressUI(currentCount, true);
+    }
+    if(e.key === STORAGE_KEY || e.key === SIGNATURE_KEY){
+      const signed = localStorage.getItem(STORAGE_KEY) === 'true';
+      if(signed){
+        loadMySignatureIfAny();
+      } else {
+        stopCountdown();
+        firstNameInput.value = '';
+        lastNameInput.value = '';
+        emailInput.value = '';
+      }
+      refreshButtonState();
+    }
+    if(e.key === LANG_KEY && e.newValue && e.newValue !== currentLang){
+      setLanguage(e.newValue);
+    }
+  });
 
   // ---- Sticky bar on scroll ----
   const heroEl = document.querySelector('header.hero');
